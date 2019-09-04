@@ -105,7 +105,10 @@ def spaceman(secret_word):
       secret_word (string): the secret word to guess.
 
     """
-    guesses_left = 7
+    # The user gets as many guesses as letters in the word, with a minimum of 5
+    guesses_left = len(secret_word)
+    if guesses_left < 5:
+        guesses_left = 5
     game_over = False
 
     while (game_over is False):
