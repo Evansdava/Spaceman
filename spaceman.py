@@ -128,6 +128,8 @@ def spaceman(secret_word):
     else:
         print("You lose. Better luck next time!\n")
 
+    print("The word was " + secret_word.upper() + "\n")
+
     return input("Play again? (y/n) ")
 
 def test():
@@ -144,8 +146,7 @@ def test():
 
 
 lettersGuessed = []
-#These function calls that will start the game
+# Test
+# Run the game as long as the user inputs "yes" or a variant thereof after playing
 while spaceman(load_word()).lower()[0] == "y":
     lettersGuessed = []
-
-#test()
