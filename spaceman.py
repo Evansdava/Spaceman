@@ -90,7 +90,7 @@ def is_guess_in_word(guess, secret_word):
 
     """
     # Check if the letter guess is in the secret word
-    if secret_word.find(guess) != -1:  # All secret words/guesses are lowercase
+    if secret_word.find(guess) != -1:
         return True
     else:
         return False
@@ -121,12 +121,14 @@ def spaceman(secret_word):
         got_input = False
         while (got_input is False):
             guess = input("Please input your guess: ").lower()
-            if len(guess) == 1 and guess.isalpha():
-                got_input = True
-            elif len(guess) < 1 or not guess.isalpha():
+            if len(guess) < 1 or not guess.isalpha():
                 print("Please guess a letter\n")
             elif len(guess) > 1:
                 print("Please only guess one letter at a time\n")
+            elif lettersGuessed.count(guess) > 0:
+                print("You've already guessed that letter\n")
+            elif len(guess) == 1 and guess.isalpha():
+                got_input = True
 
         lettersGuessed.append(guess)
 
@@ -147,7 +149,7 @@ def spaceman(secret_word):
     else:
         print("You lose. Better luck next time!\n")
 
-    print(f"The word was {secret_word} \n")
+    print(f"The word was {secret_word.upper()} \n")
 
     return input("Play again? (y/n) ")
 
