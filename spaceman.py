@@ -116,6 +116,14 @@ def spaceman(secret_word):
         # spec
         print(f"You have {str(guesses_left)} guesses left\n")
 
+        # Show the letters that have already been guessed
+        # Syntax from ewall on Stack Overflow
+        # https://stackoverflow.com/questions/3249524/print-in-one-line-dynamically
+        print(f"You have already guessed: ", end=" ")
+        for letter in sorted(lettersGuessed):
+            print(letter.upper(), sep=" ", end=" ", flush=True)
+        print("\n")
+
         # Ask the player to guess one letter per round and check that it is
         # only one letter
         got_input = False
