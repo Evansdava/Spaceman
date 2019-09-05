@@ -110,6 +110,7 @@ def spaceman(secret_word):
     if guesses_left < 5:
         guesses_left = 5
     game_over = False
+    lettersGuessed = []
 
     while (game_over is False):
         # Show the guessed word so far
@@ -180,9 +181,7 @@ def test():
 
 # test()
 
-# Declare empty list to be filled with guesses
-lettersGuessed = []
 # Run the game as long as the user inputs "yes" or a variant thereof after
 # playing
 while spaceman(load_word()).lower()[0] == "y":
-    lettersGuessed = []
+    pass
