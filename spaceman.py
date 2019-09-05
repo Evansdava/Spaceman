@@ -37,7 +37,7 @@ def is_word_guessed(secret_word, letters_guessed):
     # Loop through the letters in the secret_word and check if a letter is not
     # in lettersGuessed
     for letter in secret_word:
-        if letters_guessed.count(letter) == 0:
+        if letter not in letters_guessed:
             return False
 
     # Only reached if no letters have been shown to be false
@@ -69,7 +69,7 @@ def get_guessed_word(secret_word, letters_guessed):
     # guessed yet
     output = ""
     for letter in secret_word:
-        if letters_guessed.count(letter) > 0:
+        if letter in letters_guessed:
             output += letter.upper() + " "
         else:
             output += "_ "
@@ -90,7 +90,7 @@ def is_guess_in_word(guess, secret_word):
 
     """
     # Check if the letter guess is in the secret word
-    if secret_word.find(guess) != -1:
+    if guess in secret_word:
         return True
     else:
         return False
@@ -136,7 +136,7 @@ def spaceman(secret_word):
                 print("Please guess a letter\n")
             elif len(guess) > 1:
                 print("Please only guess one letter at a time\n")
-            elif lettersGuessed.count(guess) > 0:
+            elif guess in lettersGuessed:
                 print("You've already guessed that letter\n")
             elif len(guess) == 1 and guess.isalpha():
                 got_input = True
@@ -178,8 +178,10 @@ def test():
     spaceman("apple")
 
 
+# test()
+
+# Declare empty list to be filled with guesses
 lettersGuessed = []
-# Test
 # Run the game as long as the user inputs "yes" or a variant thereof after
 # playing
 while spaceman(load_word()).lower()[0] == "y":
