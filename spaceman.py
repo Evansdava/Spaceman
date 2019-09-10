@@ -35,7 +35,7 @@ def is_word_guessed(secret_word, letters_guessed):
 
     """
     # Loop through the letters in the secret_word and check if a letter is not
-    # in lettersGuessed
+    # in letters_guessed
     for letter in secret_word:
         if letter not in letters_guessed:
             return False
@@ -110,11 +110,11 @@ def spaceman(secret_word):
     if guesses_left < 5:
         guesses_left = 5
     game_over = False
-    lettersGuessed = []
+    letters_guessed = []
 
     while (game_over is False):
         # Show the guessed word so far
-        print("\n" + get_guessed_word(secret_word, lettersGuessed) + "\n")
+        print("\n" + get_guessed_word(secret_word, letters_guessed) + "\n")
 
         # Show the player information about the game according to the project
         # spec
@@ -124,7 +124,7 @@ def spaceman(secret_word):
         # Syntax from ewall on Stack Overflow
         # https://stackoverflow.com/questions/3249524/print-in-one-line-dynamically
         print(f"You have already guessed: ", end=" ")
-        for letter in sorted(lettersGuessed):
+        for letter in sorted(letters_guessed):
             print(letter.upper(), sep=" ", end=" ", flush=True)
         print("\n")
 
@@ -137,12 +137,12 @@ def spaceman(secret_word):
                 print("Please guess a letter\n")
             elif len(guess) > 1:
                 print("Please only guess one letter at a time\n")
-            elif guess in lettersGuessed:
+            elif guess in letters_guessed:
                 print("You've already guessed that letter\n")
             elif len(guess) == 1 and guess.isalpha():
                 got_input = True
 
-        lettersGuessed.append(guess)
+        letters_guessed.append(guess)
 
         # Check if the guessed letter is in the secret or not and give the
         # player feedback
@@ -153,10 +153,10 @@ def spaceman(secret_word):
             print("\nIncorrect.\n")
 
         # Check if the game has been won or lost
-        if is_word_guessed(secret_word, lettersGuessed) or guesses_left == 0:
+        if is_word_guessed(secret_word, letters_guessed) or guesses_left == 0:
             game_over = True
 
-    if is_word_guessed(secret_word, lettersGuessed):
+    if is_word_guessed(secret_word, letters_guessed):
         print("Congratulations! You win!\n")
     else:
         print("You lose. Better luck next time!\n")
