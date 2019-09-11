@@ -1,13 +1,19 @@
 import random
 
 
-def load_word():
+def load_word(mode):
     """
     A function that reads a text file of words and randomly selects one to use
     as the secret word from the list.
 
+    Args:
+        mode (int): The type of return to be used. 0 is default, returning
+        a single, random, mystery word. 1 is the list of words used
+
     Returns:
-           string: The secret word to be used in the spaceman guessing game
+        string: The secret word to be used in the spaceman guessing game
+        used if mode == 0
+        list: The list of possible words, used if mode == 1
 
     """
     f = open('words.txt', 'r')
@@ -16,7 +22,56 @@ def load_word():
 
     words_list = words_list[0].split(' ')
     secret_word = random.choice(words_list)
-    return secret_word
+    if mode == 0:
+        return secret_word
+    elif mode == 1:
+        return words_list
+
+
+def sinister_spaceman(secret_word, letters_guessed):
+    """
+    A function that resets the secret word after each correct guess.
+
+    Args:
+        secret_word (string): The random word the user is trying to guess.
+        letters_guessed (list of strings): The list of letters that have been
+        guessed so far.
+
+    Returns:
+        string: A word that has all the same letters guessed as the current
+        secret word.
+
+    """
+    # Load the list of possible words
+    words_list = load_word(1)
+
+    # Trim list of words down to only words which match the length of the
+    # secret word
+    index = 0
+    while index < len(words_list):
+        if len(words_list[index]) != len(secret_word):
+            words_list.pop(index)
+        else:
+            index += 1
+
+    # Determine which letters have been guessed, removing whitespace
+    guessed_word = get_guessed_word(secret_word, letters_guessed)
+    guessed_word = guessed_word.replace(" ", "").lower()
+
+    # Pare down the list of possible words based on what's been guessed
+    char = 0
+    for letter in guessed_word:
+        index = 0
+        if letter != "_":
+            while index < len(words_list):
+                if words_list[index][char] != letter:
+                    words_list.pop(index)
+                else:
+                    index += 1
+        char += 1
+
+    # Return a random possible word
+    return random.choice(words_list)
 
 
 def is_word_guessed(secret_word, letters_guessed):
@@ -25,7 +80,7 @@ def is_word_guessed(secret_word, letters_guessed):
     guessed.
 
     Args:
-        secret_word (string): the random word the user is trying to guess.
+        secret_word (string): The random word the user is trying to guess.
         letters_guessed (list of strings): list of letters that have been
         guessed so far.
 
@@ -112,6 +167,18 @@ def spaceman(secret_word):
     game_over = False
     letters_guessed = []
 
+    print(f"""
+            Welcome to Spaceman! You will have to guess a mystery word, one
+            letter at a time. You have {str(guesses_left)} guesses to do so.
+            The word changes every time you correctly guess, so watch out!
+            Don't worry though, you don't have to re-guess any letters, that's
+            done for you.
+
+            Good luck!""")
+    input("""
+            Press enter/return to begin
+            """)
+
     while (game_over is False):
         # Show the guessed word so far
         print("\n" + get_guessed_word(secret_word, letters_guessed) + "\n")
@@ -148,6 +215,7 @@ def spaceman(secret_word):
         # player feedback
         if is_guess_in_word(guess, secret_word):
             print("\nCorrect!\n")
+            secret_word = sinister_spaceman(secret_word, letters_guessed)
         else:
             guesses_left -= 1
             print("\nIncorrect.\n")
@@ -176,12 +244,16 @@ def test():
     print(get_guessed_word("apple", ["p", "e"]))
     print(get_guessed_word("apple", ["l", "e", "a"]))
 
-    spaceman("apple")
+    print(sinister_spaceman("apple", ["a", "e"]))
+    print(sinister_spaceman("apple", ["a", "p"]))
+    print(sinister_spaceman("apple", ["e", "l"]))
+
+    # spaceman("apple")
 
 
 # test()
 
 # Run the game as long as the user inputs "yes" or a variant thereof after
 # playing
-while spaceman(load_word()).lower()[0] == "y":
+while spaceman(load_word(0)).lower()[0] == "y":
     pass
