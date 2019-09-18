@@ -62,12 +62,11 @@ def sinister_spaceman(secret_word, letters_guessed):
     char = 0
     for letter in guessed_word:
         index = 0
-        if letter != "_":
-            while index < len(words_list):
-                if words_list[index][char] != letter:
-                    words_list.pop(index)
-                else:
-                    index += 1
+        while index < len(words_list) and letter != "_":
+            if words_list[index][char] != letter:
+                words_list.pop(index)
+            else:
+                index += 1
         char += 1
 
     # Return a random possible word
@@ -251,7 +250,31 @@ def test():
     # spaceman("apple")
 
 
+def test_guess_in_word():
+    assert is_guess_in_word("a", "apple") is True, "a is not in apple"
+    assert is_guess_in_word("F", "apple") is False, "F is in apple"
+    assert is_guess_in_word("a", "apple") is True, "A is not in apple"
+    assert is_guess_in_word("f", "apple") is False, "f is in apple"
+
+
+def test_word_guessed():
+    assert is_word_guessed("apple", ["a", "p", "l", "e"]) is True
+    assert is_word_guessed("apple", ["a", "p", "l", "j", "q", "t"]) is False
+    assert is_word_guessed("apple", ["a", "E", "L", "j", "M"]) is False
+    assert is_word_guessed("apple", ["a", "p", "f", "J", "k", "e"]) is False
+
+
+def test_get_guessed():
+    assert get_guessed_word("apple", ["p", "e"]) == "_ P P _ E "
+    assert get_guessed_word("apple", ["l", "e", "a"]) == "A _ _ L E "
+    assert get_guessed_word("apple", ["o", "j"]) == "_ _ _ _ _ "
+
+
 # test()
+
+test_guess_in_word()
+test_word_guessed()
+test_get_guessed()
 
 # Run the game as long as the user inputs "yes" or a variant thereof after
 # playing
